@@ -10,7 +10,7 @@ const GlobalStyle = createGlobalStyle`
 
     body {
         background-color: ${(props) => props.theme.bodyColor};
-        transition: background-color 0.2s;
+        /* transition: background-color 0.2s; */
         margin: 0 auto;
     }
 `;
