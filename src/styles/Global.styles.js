@@ -1,17 +1,22 @@
 import styled, { createGlobalStyle } from 'styled-components';
 
-const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle`
     * {
         box-sizing: border-box;
         outline: unset;
         text-decoration: none;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+        -webkit-tap-highlight-color: transparent;
         font-family: 'Nunito', sans-serif;
     }
 
     body {
         background-color: ${(props) => props.theme.bodyColor};
-        /* transition: background-color 0.2s; */
+        transition: background-color 0.2s;
         margin: 0 auto;
+        &.preloader {
+            transition: none
+        }
     }
 `;
 
@@ -21,7 +26,8 @@ export const Container = styled.main`
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    width: 100%;
+    max-width: 100%;
+    overflow: auto;
     padding: 0 10px;
 `;
 
@@ -36,6 +42,7 @@ export const Button = styled.button`
         -6px -6px 9px ${(props) => props.theme.bodyColor20};
     transition: box-shadow 0.2s, background-color 0.2s, color 0.2s;
     cursor: pointer;
+    z-index: 1;
 
     &:hover {
         box-shadow: -6px -6px 9px ${(props) => props.theme.bodyColor10},
@@ -76,6 +83,7 @@ export const Input = styled.input`
         inset 4px 4px 6px ${(props) => props.theme.bodyColor20},
         inset -4px -4px 6px ${(props) => props.theme.bodyColor10};
     transition: box-shadow 0.2s, color 0.2s, background-color 0.2s;
+    z-index: 1;
 
     &::placeholder {
         color: ${(props) => props.theme.primaryColor};
@@ -88,5 +96,3 @@ export const Input = styled.input`
             -6px -6px 9px ${(props) => props.theme.bodyColor10};
     }
 `;
-
-export default GlobalStyle;

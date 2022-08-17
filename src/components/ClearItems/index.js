@@ -1,37 +1,43 @@
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useState } from 'react';
 import { Button } from '../../styles/Global.styles';
-import { ClearPopupContainer } from './ClearItems.styles';
+import { ClearPopupContainer, PopUp } from './ClearItems.styles';
 
 const ClearItems = memo(({ items, setItems }) => {
-    const [popUp, setPopUp] = useState(false);
-    const popUpRef = useRef();
+    const [anchorEl, setAnchorEl] = useState(false);
 
     const handleClear = () => {
-        setPopUp(false);
+        setAnchorEl(false);
         setItems([]);
     };
 
-    useEffect(() => {
-        const onCloseOutside = (e) => {
-            !e.composedPath().includes(popUpRef.current) && setPopUp(false);
-        };
-        document.body.addEventListener('click', onCloseOutside);
-    }, []);
-
     return (
-        <ClearPopupContainer ref={popUpRef}>
-            <Button disabled={!items.length} onClick={() => setPopUp(!popUp)}>
+        <ClearPopupContainer>
+            <Button disabled={!items.length} onClick={(e) => setAnchorEl(e.currentTarget)}>
                 Clear
             </Button>
-            {popUp && (
+            <PopUp
+                open={Boolean(anchorEl)}
+                anchorEl={anchorEl}
+                onClose={() => setAnchorEl(false)}
+                PaperProps={{
+                    sx: {
+                        backgroundColor: 'transparent',
+                        boxShadow: 'none',
+                        marginTop: '15px',
+                    },
+                }}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}>
                 <div>
                     <p>Are you sure?</p>
                     <div>
                         <Button onClick={handleClear}>Yes</Button>
-                        <Button onClick={() => setPopUp(false)}>No</Button>
+                        <Button onClick={() => setAnchorEl(false)}>No</Button>
                     </div>
                 </div>
-            )}
+            </PopUp>
         </ClearPopupContainer>
     );
 });

@@ -1,27 +1,27 @@
 import { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import CreateItem from './components/CreateItem';
-import NewItems from './components/NewItem';
+import NewItems from './components/NewItems';
 import ClearItems from './components/ClearItems';
 import Switch from './components/Switch';
-import GlobalStyle, { Container } from './styles/Global.styles';
 import { lightTheme, darkTheme } from './styles/theme';
+import { GlobalStyle, Container } from './styles/Global.styles';
 
 const App = () => {
-    const [value, setValue] = useState('');
     const [darkMode, setDarkMode] = useState(JSON.parse(localStorage.getItem('darkMode')) || false);
-    const [items, setItems] = useState(JSON.parse(localStorage.getItem('toDoItems')) || []);
+    const [items, setItems] = useState(JSON.parse(localStorage.getItem('items')) || []);
 
     useEffect(() => {
+        document.body.classList.remove('preloader');
         localStorage.setItem('darkMode', JSON.stringify(darkMode));
-        localStorage.setItem('toDoItems', JSON.stringify(items));
+        localStorage.setItem('items', JSON.stringify(items));
     }, [items, darkMode]);
 
     return (
         <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
             <GlobalStyle />
             <Container>
-                <CreateItem value={value} setValue={setValue} items={items} setItems={setItems} />
+                <CreateItem items={items} setItems={setItems} />
                 <NewItems items={items} setItems={setItems} />
                 <ClearItems items={items} setItems={setItems} />
                 <Switch darkMode={darkMode} setDarkMode={setDarkMode} />

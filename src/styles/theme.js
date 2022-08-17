@@ -7,7 +7,6 @@ export const lightTheme = {
     primaryColor: '#000',
 };
 
-// color combinations for dark theme
 export const darkTheme = {
     bodyColor: '#262626',
     bodyColor17: '#222222',

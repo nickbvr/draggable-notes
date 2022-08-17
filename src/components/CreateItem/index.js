@@ -1,52 +1,38 @@
-import { memo } from 'react';
-import { v4 } from 'uuid';
-import randomColor from 'randomcolor';
+import { memo, useState } from 'react';
+import { setNewItem } from '../utils/newItem';
+import { onKeyEnter } from '../utils/onKeyEnter';
 import { Input, Button } from '../../styles/Global.styles';
-import { CreateItemContainer } from './CreateItem.styles';
+import { CreateItemContainer, ErrorMessage } from './CreateItem.styles';
 
-const CreateItem = memo(({ value, setValue, setItems, items }) => {
-    const getRandomNumber = (min, max) => {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min) + min);
-    };
-
-    const newItem = {
-        id: v4(),
-        value,
-        color: randomColor({
-            luminosity: 'light',
-        }),
-        defaultPos: {
-            x: getRandomNumber(-400, 400),
-            y: getRandomNumber(-250, 250),
-        },
-    };
-
-    const onKeyEnter = (e) => {
-        if (e.key === 'Enter') {
-            handleAdd();
-        }
-    };
+const CreateItem = memo(({ setItems, items }) => {
+    const [value, setValue] = useState('');
+    const [valueError, setValueError] = useState('Value cannot be empty');
+    const [valueTouch, setValueTouch] = useState(false);
 
     const handleAdd = () => {
-        if (value.trim() !== '') {
-            setItems([...items, newItem]);
-            setValue('');
-        } else {
-            setValue('');
-        }
+        value.trim() && setItems([...items, setNewItem(value)]);
+        setValue('');
+    };
+    const onChangeValue = (e) => {
+        setValue(e.target.value);
+        e.target.value.length && !e.target.value.trim()
+            ? setValueError('Content cannot contain only spaces')
+            : setValueError('');
     };
 
     return (
         <CreateItemContainer>
             <Input
-                onChange={(e) => setValue(e.target.value)}
-                onKeyPress={(e) => onKeyEnter(e)}
+                onBlur={() => setValueTouch(true)}
                 value={value}
+                onChange={onChangeValue}
+                onKeyPress={(e) => onKeyEnter(handleAdd, e)}
                 placeholder='Type something...'
             />
-            <Button onClick={handleAdd}>Add</Button>
+            <Button disabled={!value.trim()} onClick={handleAdd}>
+                Add
+            </Button>
+            {valueTouch && valueError && <ErrorMessage>{valueError}</ErrorMessage>}
         </CreateItemContainer>
     );
 });
