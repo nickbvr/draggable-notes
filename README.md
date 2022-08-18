@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-[DEMO](https://nickbvr.github.io/react-todo-app/)
+[DEMO](https://nickbvr.github.io/draggable-react-todo/)
 
 ## Available Scripts
 
