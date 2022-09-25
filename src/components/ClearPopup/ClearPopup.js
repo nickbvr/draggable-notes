@@ -1,8 +1,8 @@
 import { memo, useState } from 'react';
-import { Button } from '../../styles/Global.styles';
-import { ClearPopupContainer, PopUp } from './ClearItems.styles';
+import { Button } from '../../styles';
+import { ClearPopupContainer, PopUp } from './ClearPopup.styles';
 
-const ClearItems = memo(({ items, setItems }) => {
+const ClearPopup = memo(({ items, setItems }) => {
     const [anchorEl, setAnchorEl] = useState(false);
 
     const handleClear = () => {
@@ -42,4 +42,4 @@ const ClearItems = memo(({ items, setItems }) => {
     );
 });
 
-export default ClearItems;
+export default ClearPopup;

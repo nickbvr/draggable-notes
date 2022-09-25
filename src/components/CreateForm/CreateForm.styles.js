@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const CreateItemContainer = styled.div`
+export const CreateFormContainer = styled.div`
     display: flex;
     width: 380px;
     position: relative;

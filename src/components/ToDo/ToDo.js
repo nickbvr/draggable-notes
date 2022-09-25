@@ -1,18 +1,11 @@
 import { useState, useEffect, useRef, memo } from 'react';
 import { MdMode, MdDelete } from 'react-icons/md';
 import Draggable from 'react-draggable';
-import { onKeyEnter } from '../utils/onKeyEnter';
-import {
-    NewItemWrapper,
-    NewItemContainer,
-    NewItemValue,
-    EditInput,
-    SaveButton,
-    PopUp,
-} from './NewItems.styles';
-import { Button } from '../../styles/Global.styles';
+import { onKeyEnter } from '../../utils';
+import { Button } from '../../styles';
+import { ToDoWrapper, ToDoContainer, ToDoValue, EditInput, SaveButton, PopUp } from './ToDo.styles';
 
-const NewItems = memo(({ items, setItems }) => {
+const ToDo = memo(({ items, setItems }) => {
     const [editMode, setEditMode] = useState(false);
     const [editItem, setEditItem] = useState('');
     const [value, setValue] = useState('');
@@ -21,10 +14,10 @@ const NewItems = memo(({ items, setItems }) => {
     const ref = useRef([]);
 
     useEffect(() => {
-        const onCloseOutside = (e) => {
+        const onCloseOutside = (e) =>
             !e.composedPath().includes(ref.current[editItem]) && setEditMode(false);
-        };
         document.body.addEventListener('click', onCloseOutside);
+
         return () => document.body.removeEventListener('click', onCloseOutside);
     }, [editItem]);
 
@@ -61,7 +54,7 @@ const NewItems = memo(({ items, setItems }) => {
         setItems(items.filter((el) => el.id !== removeId));
     };
     return (
-        <NewItemWrapper>
+        <ToDoWrapper>
             {items.map((el, i) => {
                 return (
                     <Draggable
@@ -69,7 +62,7 @@ const NewItems = memo(({ items, setItems }) => {
                         defaultPosition={el.defaultPos}
                         bounds='parent'
                         onStop={(_, data) => updatePosition(data, i)}>
-                        <NewItemContainer
+                        <ToDoContainer
                             style={{ backgroundColor: el.color }}
                             ref={(element) => {
                                 ref.current[el.id] = element;
@@ -92,7 +85,7 @@ const NewItems = memo(({ items, setItems }) => {
                                 </>
                             ) : (
                                 <>
-                                    <NewItemValue>{el.value}</NewItemValue>
+                                    <ToDoValue>{el.value}</ToDoValue>
                                     <MdMode
                                         onClick={() => onEditMode(el.id, el.value)}
                                         onTouchStart={() => onEditMode(el.id, el.value)}
@@ -104,7 +97,7 @@ const NewItems = memo(({ items, setItems }) => {
                                     />
                                 </>
                             )}
-                        </NewItemContainer>
+                        </ToDoContainer>
                     </Draggable>
                 );
             })}
@@ -127,8 +120,8 @@ const NewItems = memo(({ items, setItems }) => {
                     <Button onClick={() => setAnchorEl(false)}>No</Button>
                 </div>
             </PopUp>
-        </NewItemWrapper>
+        </ToDoWrapper>
     );
 });
 
-export default NewItems;
+export default ToDo;

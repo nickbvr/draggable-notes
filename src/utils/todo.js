@@ -1,8 +1,9 @@
 import { v4 } from 'uuid';
 import randomColor from 'randomcolor';
+import KEY_CODES from '../constants';
 
-export const setNewItem = (value) => {
-    const newItem = {
+export const getToDo = (value) => {
+    return {
         id: v4(),
         value: value.trim(),
         color: randomColor({
@@ -13,5 +14,10 @@ export const setNewItem = (value) => {
             y: Math.floor(Math.random() * (window.innerHeight - 100)),
         },
     };
-    return newItem;
+};
+
+export const onKeyEnter = (func, e, idx) => {
+    if (e.key === KEY_CODES.enter) {
+        return func(idx);
+    }
 };

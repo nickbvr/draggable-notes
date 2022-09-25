@@ -1,40 +1,40 @@
 import { memo, useState } from 'react';
-import { setNewItem } from '../utils/newItem';
-import { onKeyEnter } from '../utils/onKeyEnter';
-import { Input, Button } from '../../styles/Global.styles';
-import { CreateItemContainer, ErrorMessage } from './CreateItem.styles';
+import { getToDo, onKeyEnter } from '../../utils';
+import { Input, Button } from '../../styles';
+import { CreateFormContainer, ErrorMessage } from './CreateForm.styles';
 
-const CreateItem = memo(({ setItems, items }) => {
+const CreateForm = memo(({ setItems, items }) => {
     const [value, setValue] = useState('');
     const [valueError, setValueError] = useState('Value cannot be empty');
     const [valueTouch, setValueTouch] = useState(false);
 
     const handleAdd = () => {
-        value.trim() && setItems([...items, setNewItem(value)]);
+        value.trim() && setItems([...items, getToDo(value)]);
         setValue('');
     };
     const onChangeValue = (e) => {
-        setValue(e.target.value);
-        e.target.value.length && !e.target.value.trim()
+        const targetValue = e.target.value;
+        setValue(targetValue);
+        targetValue.length && !targetValue.trim()
             ? setValueError('Content cannot contain only spaces')
             : setValueError('');
     };
 
     return (
-        <CreateItemContainer>
+        <CreateFormContainer>
             <Input
-                onBlur={() => setValueTouch(true)}
                 value={value}
-                onChange={onChangeValue}
-                onKeyPress={(e) => onKeyEnter(handleAdd, e)}
                 placeholder='Type something...'
+                onChange={onChangeValue}
+                onBlur={() => setValueTouch(true)}
+                onKeyPress={(e) => onKeyEnter(handleAdd, e)}
             />
             <Button disabled={!value.trim()} onClick={handleAdd}>
                 Add
             </Button>
             {valueTouch && valueError && <ErrorMessage>{valueError}</ErrorMessage>}
-        </CreateItemContainer>
+        </CreateFormContainer>
     );
 });
 
-export default CreateItem;
+export default CreateForm;

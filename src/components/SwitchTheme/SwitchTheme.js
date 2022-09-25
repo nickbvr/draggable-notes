@@ -1,9 +1,9 @@
 import { memo } from 'react';
-import { SwitchWrapper } from './Switch.styles';
+import { SwitchThemeWrapper } from './SwitchTheme.styles';
 
-const Switch = memo(({ darkMode, setDarkMode }) => {
+const SwitchTheme = memo(({ darkMode, setDarkMode }) => {
     return (
-        <SwitchWrapper>
+        <SwitchThemeWrapper>
             <button
                 onClick={() => setDarkMode(!darkMode)}
                 title={`Switch theme (currently ${darkMode ? 'dark' : 'light'} mode)`}>
@@ -21,8 +21,8 @@ const Switch = memo(({ darkMode, setDarkMode }) => {
                     </svg>
                 )}
             </button>
-        </SwitchWrapper>
+        </SwitchThemeWrapper>
     );
 });
 
-export default Switch;
+export default SwitchTheme;
