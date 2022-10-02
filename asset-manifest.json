@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/draggable-react-todo/static/js/main.e8eff19e.js",
-    "index.html": "/draggable-react-todo/index.html",
-    "main.e8eff19e.js.map": "/draggable-react-todo/static/js/main.e8eff19e.js.map"
+    "main.js": "/draggable-notes/static/js/main.c802cbf9.js",
+    "index.html": "/draggable-notes/index.html",
+    "main.c802cbf9.js.map": "/draggable-notes/static/js/main.c802cbf9.js.map"
   },
   "entrypoints": [
-    "static/js/main.e8eff19e.js"
+    "static/js/main.c802cbf9.js"
   ]
 }
