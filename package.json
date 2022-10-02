@@ -2,7 +2,7 @@
     "name": "todo",
     "version": "0.1.0",
     "private": true,
-    "homepage": "https://nickbvr.github.io/draggable-react-todo/",
+    "homepage": "https://nickbvr.github.io/draggable-notes/",
     "dependencies": {
         "@emotion/react": "^11.10.0",
         "@emotion/styled": "^11.10.0",
