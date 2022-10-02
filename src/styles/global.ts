@@ -1,6 +1,7 @@
 import styled, { createGlobalStyle, css } from 'styled-components';
+import { Theme } from './theme';
 
-export const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     ${({ theme: { colors } }) => css`
         * {
             box-sizing: border-box;
@@ -34,7 +35,7 @@ export const Container = styled.main`
 `;
 
 export const Button = styled.button`
-    ${({ theme: { colors, shadows } }) => css`
+    ${({ theme: { colors, shadows } }: { theme: Theme }) => css`
         padding: 10px 20px;
         font-size: 16px;
         border-radius: 8px;
@@ -69,7 +70,7 @@ export const Button = styled.button`
 `;
 
 export const Input = styled.input`
-    ${({ theme: { colors, shadows } }) => css`
+    ${({ theme: { colors, shadows } }: { theme: Theme }) => css`
         padding: 10px 20px;
         font-size: 16px;
         border-radius: 8px;

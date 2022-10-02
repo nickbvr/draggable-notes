@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import { Popover } from '@mui/material';
+import { Theme } from '../../styles';
 
 export const ClearPopupContainer = styled.div`
     position: absolute;
@@ -10,7 +11,7 @@ export const ClearPopupContainer = styled.div`
 `;
 
 export const PopUp = styled(Popover)`
-    ${({ theme: { colors, shadows } }) => css`
+    ${({ theme: { colors, shadows } }: { theme: Theme }) => css`
         > div {
             box-shadow: ${shadows.transparentSmall};
             border-radius: 8px;

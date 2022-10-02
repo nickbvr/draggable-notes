@@ -1,6 +1,16 @@
 import { lightColors, darkColors } from './colors';
 
-export const lightShadows = {
+export interface Shadows {
+    big: string;
+    swappedBig: string;
+    reverseBig: string;
+    small: string;
+    transparentSmall: string;
+    transparentInsetSmall: string;
+    swappedTransparentInsetSmall: string;
+}
+
+export const lightShadows: Shadows = {
     big: `6px 6px 9px ${lightColors.body90}, -6px -6px 9px ${lightColors.body80}`,
     swappedBig: `6px 6px 9px ${lightColors.body80}, -6px -6px 9px ${lightColors.body90}`,
     reverseBig: `-6px -6px 9px ${lightColors.body90}, 6px 6px 9px ${lightColors.body80}`,
@@ -10,7 +20,7 @@ export const lightShadows = {
     swappedTransparentInsetSmall: `0 0 transparent, 0 0 transparent, inset 4px 4px 6px ${lightColors.body80}, inset -4px -4px 6px ${lightColors.body90}`,
 };
 
-export const darkShadows = {
+export const darkShadows: Shadows = {
     big: `6px 6px 9px ${darkColors.body90}, -6px -6px 9px ${darkColors.body80}`,
     swappedBig: `6px 6px 9px ${darkColors.body80}, -6px -6px 9px ${darkColors.body90}`,
     reverseBig: `-6px -6px 9px ${darkColors.body90}, 6px 6px 9px ${darkColors.body80}`,

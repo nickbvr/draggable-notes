@@ -1,7 +1,8 @@
 import styled, { css } from 'styled-components';
+import { Theme } from '../../styles';
 
 export const SwitchThemeWrapper = styled.div`
-    ${({ theme: { colors } }) => css`
+    ${({ theme: { colors } }: { theme: Theme }) => css`
         position: absolute;
         right: 0;
         top: 0;

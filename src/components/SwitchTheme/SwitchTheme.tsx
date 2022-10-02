@@ -1,11 +1,20 @@
-import { memo } from 'react';
+import { FC, memo } from 'react';
 import { SwitchThemeWrapper } from './SwitchTheme.styles';
 
-const SwitchTheme = memo(({ darkMode, setDarkMode }) => {
+interface SwitchThemeProps {
+    darkMode: boolean;
+    setDarkMode: (darkMode: boolean) => void;
+}
+
+const SwitchTheme: FC<SwitchThemeProps> = memo(({ darkMode, setDarkMode }) => {
+    const handleClick = () => {
+        setDarkMode(!darkMode);
+    };
+
     return (
         <SwitchThemeWrapper>
             <button
-                onClick={() => setDarkMode(!darkMode)}
+                onClick={handleClick}
                 title={`Switch theme (currently ${darkMode ? 'dark' : 'light'} mode)`}>
                 {darkMode ? (
                     <svg viewBox='0 0 24 24' width='24' height='24'>

@@ -1,5 +1,6 @@
 import { Popover } from '@mui/material';
 import styled, { css } from 'styled-components';
+import { Theme } from '../../styles';
 
 export const ToDoWrapper = styled.div`
     position: absolute;
@@ -10,7 +11,7 @@ export const ToDoWrapper = styled.div`
 `;
 
 export const ToDoContainer = styled.div`
-    ${({ theme: { shadows } }) => css`
+    ${({ theme: { shadows } }: { theme: Theme }) => css`
         position: absolute;
         display: flex;
         align-items: center;
@@ -77,7 +78,7 @@ export const SaveButton = styled.button`
 `;
 
 export const PopUp = styled(Popover)`
-    ${({ theme: { colors, shadows } }) => css`
+    ${({ theme: { colors, shadows } }: { theme: Theme }) => css`
         div {
             box-shadow: ${shadows.transparentSmall};
             border-radius: 8px;

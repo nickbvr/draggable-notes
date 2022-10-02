@@ -1,24 +1,34 @@
-import { memo, useState } from 'react';
+import { FC, memo, MouseEvent, useState } from 'react';
+import { Todo } from '../../types';
 import { Button } from '../../styles';
 import { ClearPopupContainer, PopUp } from './ClearPopup.styles';
 
-const ClearPopup = memo(({ items, setItems }) => {
-    const [anchorEl, setAnchorEl] = useState(false);
+interface ClearPopupProps {
+    todos: Todo[];
+    setTodos: (todos: Todo[]) => void;
+}
+
+const ClearPopup: FC<ClearPopupProps> = memo(({ todos, setTodos }) => {
+    const [anchor, setAnchor] = useState<HTMLButtonElement | null>(null);
 
     const handleClear = () => {
-        setAnchorEl(false);
-        setItems([]);
+        setAnchor(null);
+        setTodos([]);
+    };
+
+    const handleClose = (e?: MouseEvent<HTMLButtonElement>) => {
+        e ? setAnchor(e.currentTarget) : setAnchor(null);
     };
 
     return (
         <ClearPopupContainer>
-            <Button disabled={!items.length} onClick={(e) => setAnchorEl(e.currentTarget)}>
+            <Button disabled={!todos.length} onClick={handleClose}>
                 Clear
             </Button>
             <PopUp
-                open={Boolean(anchorEl)}
-                anchorEl={anchorEl}
-                onClose={() => setAnchorEl(false)}
+                open={!!anchor}
+                anchorEl={anchor}
+                onClose={() => handleClose()}
                 PaperProps={{
                     sx: {
                         backgroundColor: 'transparent',
@@ -34,7 +44,7 @@ const ClearPopup = memo(({ items, setItems }) => {
                     <p>Are you sure?</p>
                     <div>
                         <Button onClick={handleClear}>Yes</Button>
-                        <Button onClick={() => setAnchorEl(false)}>No</Button>
+                        <Button onClick={() => handleClose()}>No</Button>
                     </div>
                 </div>
             </PopUp>

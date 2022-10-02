@@ -1,4 +1,13 @@
-export const lightColors = {
+export interface Colors {
+    body95: string;
+    body90: string;
+    body85: string;
+    body84: string;
+    body80: string;
+    primary: string;
+}
+
+export const lightColors: Colors = {
     body95: '#f2f2f2',
     body90: '#e6e6e6',
     body85: '#d9d9d9',
@@ -7,7 +16,7 @@ export const lightColors = {
     primary: '#000000',
 };
 
-export const darkColors = {
+export const darkColors: Colors = {
     body95: '#0d0d0d',
     body90: '#1a1a1a',
     body85: '#262626',
