@@ -2,7 +2,7 @@
 
 Application with local storage and the feature of placing notes as you wish
 
-[DEMO](https://nickbvr.github.io/draggable-todo/)
+[DEMO](https://nickbvr.github.io/draggable-notes/)
 
 ## Tools
 
