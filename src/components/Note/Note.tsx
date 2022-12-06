@@ -1,4 +1,5 @@
-import { FC, useState, useEffect, useRef, useCallback, memo, ChangeEvent, MouseEvent } from 'react';
+import { FC, useState, useRef, useCallback, memo, ChangeEvent, MouseEvent } from 'react';
+import { useClickOutside } from '../../hooks';
 import Draggable, { DraggableEvent } from 'react-draggable';
 import { MdMode, MdDelete } from 'react-icons/md';
 import { onKeyEnter } from '../../utils';
@@ -19,16 +20,9 @@ const Note: FC<NoteProps> = memo(({ notes, setNotes }) => {
     const [anchor, setAnchor] = useState<HTMLButtonElement | null>(null);
     const ref = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
-    useEffect(() => {
-        const onCloseOutside = (e: Event) => {
-            activeNote &&
-                !e.composedPath().includes(ref.current[activeNote] as EventTarget) &&
-                setEditMode(false);
-        };
-        document.body.addEventListener('mousedown', onCloseOutside);
-
-        return () => document.body.removeEventListener('click', onCloseOutside);
-    }, [activeNote]);
+    useClickOutside(ref, activeNote, () => {
+        setEditMode(false);
+    });
 
     const onEditMode = useCallback(
         (id: number, value: string) => () => {

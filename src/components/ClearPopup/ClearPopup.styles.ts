@@ -7,7 +7,7 @@ export const ClearPopupContainer = styled.div`
     top: 0;
     left: 0;
     margin: 15px 0 0 15px;
-    z-index: 2;
+    z-index: 1;
 `;
 
 export const PopUp = styled(Popover)`

@@ -1,22 +1,15 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
+import { useLocalStorage } from './hooks';
 import { ThemeProvider } from 'styled-components';
 import { CreateForm, ClearPopup, SwitchTheme, Note } from './components';
 import { INote } from './types';
 import { lightTheme, darkTheme, GlobalStyle, Container } from './styles';
 
 const App: FC = () => {
-    const [darkMode, setDarkMode] = useState<boolean>(
-        JSON.parse(localStorage.getItem('darkMode') as string) || false,
-    );
-    const [notes, setNotes] = useState<INote[]>(
-        JSON.parse(localStorage.getItem('notes') as string) || [],
-    );
+    const [darkMode, setDarkMode] = useLocalStorage<boolean>('darkMode', true);
+    const [notes, setNotes] = useLocalStorage<INote[]>('notes', []);
 
-    useEffect(() => {
-        document.body.classList.remove('initialTransition');
-        localStorage.setItem('darkMode', JSON.stringify(darkMode));
-        localStorage.setItem('notes', JSON.stringify(notes));
-    }, [notes, darkMode]);
+    useEffect(() => document.body.classList.remove('initialTransition'), []);
 
     return (
         <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
