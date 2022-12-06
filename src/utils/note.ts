@@ -1,16 +1,15 @@
 import { KeyboardEvent } from 'react';
-import { v4 } from 'uuid';
 import randomColor from 'randomcolor';
 import KEY_CODES from '../constants';
 
-export const getToDo = (value: string) => {
+export const getNote = (text: string) => {
     return {
-        id: v4(),
-        value: value.trim(),
+        id: Date.now(),
+        text,
         color: randomColor({
             luminosity: 'light',
         }),
-        defaultPos: {
+        position: {
             x: Math.floor(Math.random() * (window.innerWidth - 100)),
             y: Math.floor(Math.random() * (window.innerHeight - 100)),
         },
@@ -18,9 +17,9 @@ export const getToDo = (value: string) => {
 };
 
 export const onKeyEnter = (
-    callback: (id?: string) => void,
+    handler: (id?: number) => void,
     e: KeyboardEvent<HTMLInputElement>,
-    id?: string,
+    id?: number,
 ) => {
-    e.key === KEY_CODES.enter && callback(id);
+    e.key === KEY_CODES.enter && handler(id);
 };

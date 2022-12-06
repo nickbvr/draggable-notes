@@ -1,36 +1,38 @@
-import { useState, useEffect, useRef, useCallback, memo, FC, ChangeEvent, MouseEvent } from 'react';
-import { MdMode, MdDelete } from 'react-icons/md';
+import { FC, useState, useEffect, useRef, useCallback, memo, ChangeEvent, MouseEvent } from 'react';
 import Draggable, { DraggableEvent } from 'react-draggable';
+import { MdMode, MdDelete } from 'react-icons/md';
 import { onKeyEnter } from '../../utils';
-import { Todo } from '../../types';
+import { INote } from '../../types';
 import { Button } from '../../styles';
-import { ToDoWrapper, ToDoContainer, ToDoValue, EditInput, SaveButton, PopUp } from './ToDo.styles';
+import { NoteWrapper, NoteContainer, NoteValue, EditInput, SaveButton, PopUp } from './Note.styles';
 
-interface ToDoProps {
-    todos: Todo[];
-    setTodos: (todos: Todo[]) => void;
+interface NoteProps {
+    notes: INote[];
+    setNotes: (notes: INote[]) => void;
 }
 
-const ToDo: FC<ToDoProps> = memo(({ todos, setTodos }) => {
-    const [editMode, setEditMode] = useState(false);
-    const [activeTodo, setActiveTodo] = useState('');
-    const [localValue, setLocalValue] = useState('');
-    const [removeId, setRemoveId] = useState('');
+const Note: FC<NoteProps> = memo(({ notes, setNotes }) => {
+    const [editMode, setEditMode] = useState<boolean>();
+    const [activeNote, setActiveNote] = useState<number>();
+    const [localValue, setLocalValue] = useState<string>();
+    const [removeId, setRemoveId] = useState<number>();
     const [anchor, setAnchor] = useState<HTMLButtonElement | null>(null);
-    const ref = useRef<{ [key: string]: any }>([]);
+    const ref = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
     useEffect(() => {
         const onCloseOutside = (e: Event) => {
-            !e.composedPath().includes(ref.current[activeTodo]) && setEditMode(false);
+            activeNote &&
+                !e.composedPath().includes(ref.current[activeNote] as EventTarget) &&
+                setEditMode(false);
         };
-        document.body.addEventListener('click', onCloseOutside);
+        document.body.addEventListener('mousedown', onCloseOutside);
 
         return () => document.body.removeEventListener('click', onCloseOutside);
-    }, [activeTodo]);
+    }, [activeNote]);
 
     const onEditMode = useCallback(
-        (id: string, value: string) => () => {
-            setActiveTodo(id);
+        (id: number, value: string) => () => {
+            setActiveNote(id);
             setLocalValue(value);
             setEditMode(true);
         },
@@ -38,17 +40,17 @@ const ToDo: FC<ToDoProps> = memo(({ todos, setTodos }) => {
     );
 
     const handleUpdatePosition = useCallback(
-        (todoId: string) =>
+        (noteId: number) =>
             (_: DraggableEvent, { x, y }: { x: number; y: number }) => {
-                todos.find(({ id }) => id === todoId)!.defaultPos = { x, y };
-                setTodos([...todos]);
+                notes.find(({ id }) => id === noteId)!.position = { x, y };
+                setNotes([...notes]);
             },
-        [todos, setTodos],
+        [notes, setNotes],
     );
 
-    const handleUpdateValue = (todoId?: string) => {
-        todos.find(({ id }) => id === todoId)!.value = localValue.trim();
-        setTodos([...todos]);
+    const handleUpdateValue = (noteId?: number) => {
+        notes.find(({ id }) => id === noteId)!.text = localValue!.trim();
+        setNotes([...notes]);
         setEditMode(false);
     };
 
@@ -57,7 +59,7 @@ const ToDo: FC<ToDoProps> = memo(({ todos, setTodos }) => {
     };
 
     const onRemoveItem = useCallback(
-        (id: string) => (e: MouseEvent<HTMLButtonElement>) => {
+        (id: number) => (e: MouseEvent<HTMLButtonElement>) => {
             setAnchor(e.currentTarget);
             setRemoveId(id);
         },
@@ -66,26 +68,24 @@ const ToDo: FC<ToDoProps> = memo(({ todos, setTodos }) => {
 
     const handleRemove = () => {
         setAnchor(null);
-        setTodos(todos.filter(({ id }) => id !== removeId));
+        setNotes(notes.filter(({ id }) => id !== removeId));
     };
 
     const handleClose = () => setAnchor(null);
 
     return (
-        <ToDoWrapper>
-            {todos.map(({ id, value, color, defaultPos }) => {
+        <NoteWrapper>
+            {notes.map(({ id, text, color, position }) => {
                 return (
                     <Draggable
                         key={id}
-                        defaultPosition={defaultPos}
+                        defaultPosition={position}
                         bounds='parent'
                         onStop={handleUpdatePosition(id)}>
-                        <ToDoContainer
+                        <NoteContainer
                             style={{ backgroundColor: color }}
-                            ref={(el) => {
-                                ref.current[id] = el;
-                            }}>
-                            {activeTodo === id && editMode ? (
+                            ref={(el) => (ref.current[id] = el)}>
+                            {activeNote === id && editMode ? (
                                 <>
                                     <EditInput>
                                         <input
@@ -103,10 +103,10 @@ const ToDo: FC<ToDoProps> = memo(({ todos, setTodos }) => {
                                 </>
                             ) : (
                                 <>
-                                    <ToDoValue>{value}</ToDoValue>
+                                    <NoteValue>{text}</NoteValue>
                                     <MdMode
-                                        onClick={onEditMode(id, value)}
-                                        onTouchStart={onEditMode(id, value)}
+                                        onClick={onEditMode(id, text)}
+                                        onTouchStart={onEditMode(id, text)}
                                     />
                                     <MdDelete
                                         style={{ marginRight: '5px' }}
@@ -115,7 +115,7 @@ const ToDo: FC<ToDoProps> = memo(({ todos, setTodos }) => {
                                     />
                                 </>
                             )}
-                        </ToDoContainer>
+                        </NoteContainer>
                     </Draggable>
                 );
             })}
@@ -138,8 +138,8 @@ const ToDo: FC<ToDoProps> = memo(({ todos, setTodos }) => {
                     <Button onClick={handleClose}>No</Button>
                 </div>
             </PopUp>
-        </ToDoWrapper>
+        </NoteWrapper>
     );
 });
 
-export default ToDo;
+export default Note;

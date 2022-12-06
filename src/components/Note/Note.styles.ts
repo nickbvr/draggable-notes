@@ -2,7 +2,7 @@ import { Popover } from '@mui/material';
 import styled, { css } from 'styled-components';
 import { Theme } from '../../styles';
 
-export const ToDoWrapper = styled.div`
+export const NoteWrapper = styled.div`
     position: absolute;
     top: 0;
     width: 100%;
@@ -10,7 +10,7 @@ export const ToDoWrapper = styled.div`
     left: 0;
 `;
 
-export const ToDoContainer = styled.div`
+export const NoteContainer = styled.div`
     ${({ theme: { shadows } }: { theme: Theme }) => css`
         position: absolute;
         display: flex;
@@ -37,7 +37,7 @@ export const ToDoContainer = styled.div`
     `}
 `;
 
-export const ToDoValue = styled.p`
+export const NoteValue = styled.p`
     margin: 0 16px;
     padding: 15px 0;
     cursor: grab;

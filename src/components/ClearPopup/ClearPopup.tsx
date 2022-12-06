@@ -1,19 +1,19 @@
-import { FC, memo, MouseEvent, useState } from 'react';
-import { Todo } from '../../types';
+import { FC, useState, memo, MouseEvent } from 'react';
+import { INote } from '../../types';
 import { Button } from '../../styles';
 import { ClearPopupContainer, PopUp } from './ClearPopup.styles';
 
 interface ClearPopupProps {
-    todos: Todo[];
-    setTodos: (todos: Todo[]) => void;
+    notes: INote[];
+    setNotes: (notes: INote[]) => void;
 }
 
-const ClearPopup: FC<ClearPopupProps> = memo(({ todos, setTodos }) => {
+const ClearPopup: FC<ClearPopupProps> = memo(({ notes, setNotes }) => {
     const [anchor, setAnchor] = useState<HTMLButtonElement | null>(null);
 
     const handleClear = () => {
         setAnchor(null);
-        setTodos([]);
+        setNotes([]);
     };
 
     const handleClose = (e?: MouseEvent<HTMLButtonElement>) => {
@@ -22,7 +22,7 @@ const ClearPopup: FC<ClearPopupProps> = memo(({ todos, setTodos }) => {
 
     return (
         <ClearPopupContainer>
-            <Button disabled={!todos.length} onClick={handleClose}>
+            <Button disabled={!notes.length} onClick={handleClose}>
                 Clear
             </Button>
             <PopUp

@@ -1,30 +1,30 @@
 import { FC, useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
-import { CreateForm, ClearPopup, SwitchTheme, ToDo } from './components';
-import { Todo } from './types';
+import { CreateForm, ClearPopup, SwitchTheme, Note } from './components';
+import { INote } from './types';
 import { lightTheme, darkTheme, GlobalStyle, Container } from './styles';
 
 const App: FC = () => {
     const [darkMode, setDarkMode] = useState<boolean>(
         JSON.parse(localStorage.getItem('darkMode') as string) || false,
     );
-    const [todos, setTodos] = useState<Todo[]>(
-        JSON.parse(localStorage.getItem('todos') as string) || [],
+    const [notes, setNotes] = useState<INote[]>(
+        JSON.parse(localStorage.getItem('notes') as string) || [],
     );
 
     useEffect(() => {
         document.body.classList.remove('initialTransition');
         localStorage.setItem('darkMode', JSON.stringify(darkMode));
-        localStorage.setItem('todos', JSON.stringify(todos));
-    }, [todos, darkMode]);
+        localStorage.setItem('notes', JSON.stringify(notes));
+    }, [notes, darkMode]);
 
     return (
         <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
             <GlobalStyle />
             <Container>
-                <CreateForm todos={todos} setTodos={setTodos} />
-                <ToDo todos={todos} setTodos={setTodos} />
-                <ClearPopup todos={todos} setTodos={setTodos} />
+                <CreateForm notes={notes} setNotes={setNotes} />
+                <Note notes={notes} setNotes={setNotes} />
+                <ClearPopup notes={notes} setNotes={setNotes} />
                 <SwitchTheme darkMode={darkMode} setDarkMode={setDarkMode} />
             </Container>
         </ThemeProvider>

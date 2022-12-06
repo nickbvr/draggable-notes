@@ -1,31 +1,31 @@
-import { ChangeEvent, FC, memo, useState } from 'react';
-import { getToDo, onKeyEnter } from '../../utils';
-import { Todo } from '../../types';
+import { FC, useState, memo, ChangeEventHandler } from 'react';
+import { INote } from '../../types';
 import { Input, Button } from '../../styles';
 import { CreateFormContainer } from './CreateForm.styles';
+import { getNote, onKeyEnter } from '../../utils';
 
 interface CreateFormProps {
-    todos: Todo[];
-    setTodos: (todos: Todo[]) => void;
+    notes: INote[];
+    setNotes: (notes: INote[]) => void;
 }
 
-const CreateForm: FC<CreateFormProps> = memo(({ todos, setTodos }) => {
-    const [value, setValue] = useState('');
+const CreateForm: FC<CreateFormProps> = memo(({ notes, setNotes }) => {
+    const [value, setValue] = useState<string>('');
 
     const handleAdd = () => {
-        value.trim() && setTodos([...todos, getToDo(value)]);
+        value.trim() && setNotes([...notes, getNote(value.trim())]);
         setValue('');
     };
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
         setValue(e.target.value);
     };
 
     return (
         <CreateFormContainer>
             <Input
-                value={value}
                 placeholder='Type something...'
+                value={value}
                 onChange={handleChange}
                 onKeyPress={(e) => onKeyEnter(handleAdd, e)}
             />
